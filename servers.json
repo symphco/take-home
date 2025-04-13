@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Symph DB",
+      "Group": "Servers",
+      "Host": "host.docker.internal",
+      "Port": 5432,
+      "MaintenanceDB": "symph",
+      "Username": "symph",
+      "PassFile": "/pgpass",
+      "SSLMode": "disable",
+      "SavePassword": true
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "migration:new": "tsx ./src/db/create-db-migration.js",
+    "migration:up": "knex --knexfile ./src/db/knexfile.js --client pg migrate:up",
+    "migration:down": "knex --knexfile ./src/db/knexfile.js --client pg migrate:down",
+    "migration:list": "knex --knexfile ./src/db/knexfile.js --client pg migrate:list",
+    "migration:latest": "knex --knexfile ./src/db/knexfile.js --client pg migrate:latest",
+    "migration:status": "knex --knexfile ./src/db/knexfile.js --client pg migrate:status",
+    "migration:rollback": "knex --knexfile ./src/db/knexfile.js migrate:rollback",
+    "migration:unlock": "knex --knexfile ./src/db/knexfile.js migrate:unlock"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sindresorhus/slugify": "^2.2.1",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.17.1",
+    "knex": "^3.1.0",
+    "nodemon": "^3.1.9",
+    "pg": "^8.2.0",
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

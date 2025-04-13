@@ -1,0 +1,96 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: symph
+      POSTGRES_USER: symph
+      POSTGRES_DB: symph
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U symph"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db-migration:
+    container_name: db-migration
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    env_file: .env
+    environment:
+      - DB_CONNECTION_URI=postgres://symph:symph@db/symph?sslmode=disable
+    command: npm run migration:latest
+    volumes:
+      - ./server/src:/app/src
+
+  backend:
+    container_name: dev-api
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    depends_on:
+      db:
+        condition: service_started
+      db-migration:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    environment:
+      - NODE_ENV=development
+      - DB_CONNECTION_URI=postgres://symph:symph@db/symph?sslmode=disable
+      - TELEMETRY_ENABLED=false
+    volumes:
+      - ./server/src:/app/src
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    container_name: dev-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src/ # mounted whole src to avoid missing reload on new files
+      - ./client/public:/app/public
+    env_file: .env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: pass
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+
+  smtp-server:
+    container_name: dev-smtp-server
+    image: lytrax/mailhog:latest # https://github.com/mailhog/MailHog/issues/353#issuecomment-821137362
+    restart: always
+    logging:
+      driver: "none" # disable saving logs
+    ports:
+      - 1025:1025 # SMTP server
+      - 8025:8025 # Web UI
+
+volumes:
+  postgres-data:
+    driver: local
