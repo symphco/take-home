@@ -1,24 +1,38 @@
-# Symph take home coding assignment
+# Symph Take Home Coding Assignment
 
 <!--toc:start-->
 
-- [Symph take home coding assignment](#symph-take-home-coding-assignment)
+- [Symph Take Home Coding Assignment](#symph-take-home-coding-assignment)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
-    - [Code base walk though](#code-base-walk-though)
+    - [Architecture](#architecture)
+    - [Technology Stack](#technology-stack)
+    - [Code Base Structure](#code-base-structure)
   - [Prerequisites](#prerequisites)
   - [Setup Instructions](#setup-instructions)
-  - [Database Migrations](#database-migrations)
+    - [Detailed Setup Steps](#detailed-setup-steps)
+    - [Troubleshooting Common Setup Issues](#troubleshooting-common-setup-issues)
+  - [Database Management](#database-management)
+    - [Database Schema](#database-schema)
     - [Migration Commands](#migration-commands)
+    - [Data Seeding](#data-seeding)
   - [Services Overview](#services-overview)
-    - [Backend](#backend)
-    - [Frontend](#frontend)
-    - [Database](#database)
-    - [Other helpful Services](#other-helpful-services)
+    - [Backend (Express.js)](#backend-expressjs)
+    - [Frontend (React.js)](#frontend-reactjs)
+    - [Database (PostgreSQL)](#database-postgresql)
+    - [Development Tools](#development-tools)
       - [pgAdmin](#pgadmin)
       - [SMTP Server](#smtp-server)
   - [Local Access Links](#local-access-links)
-  - [Development Commands](#development-commands) - [Install Dependencies](#install-dependencies) - [Build and Start Services](#build-and-start-services) - [Stop and Remove Services](#stop-and-remove-services)
+  - [Development Workflow](#development-workflow)
+    - [Install Dependencies](#install-dependencies)
+    - [Build and Start Services](#build-and-start-services)
+    - [Stop and Remove Services](#stop-and-remove-services)
+    - [Code Formatting and Linting](#code-formatting-and-linting)
+  - [Testing](#testing)
+  - [Deployment](#deployment)
+  - [Contributing Guidelines](#contributing-guidelines)
+  - [Support and Contact](#support-and-contact)
   <!--toc:end-->
 
 ## Table of Contents
@@ -26,98 +40,202 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Setup Instructions](#setup-instructions)
+- [Database Management](#database-management)
 - [Services Overview](#services-overview)
-  - [Backend](#backend)
-  - [Frontend](#frontend)
-  - [Database](#database)
 - [Local Access Links](#local-access-links)
-- [Development Commands](#development-commands)
+- [Development Workflow](#development-workflow)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing Guidelines](#contributing-guidelines)
+- [Support and Contact](#support-and-contact)
 
 ---
 
 ## Overview
 
-This is a full-stack application boilerplate by Symph careers team with the following components:
+This is a comprehensive full-stack application boilerplate created by the Symph careers team. It provides a solid foundation for building modern web applications with industry-standard practices and tools.
 
-- **Backend:** An API built with **Express.js**.
-- **Frontend:** A user interface built with **React.js**.
-- **Database:** A **PostgreSQL** database with query operations powered by **Knex.js**.
-- **Docker Compose:** Used to orchestrate all services in the development environment.
+### Architecture
+
+The application follows a modern microservices architecture with:
+
+- Clear separation of concerns between frontend and backend
+- RESTful API design principles
+- Containerized services for consistent development and deployment
+- Database migration system for version-controlled schema changes
+
+### Technology Stack
+
+- **Backend:** A RESTful API built with **Express.js** on Node.js
+- **Frontend:** A responsive user interface built with **React.js**, TypeScript, and Tailwind CSS
+- **Database:** A **PostgreSQL** database with query operations powered by **Knex.js**
+- **Development Environment:** **Docker Compose** for orchestrating all services locally
+
+### Code Base Structure
+
+```
+project-root/
+├── client/               # Frontend React application
+│   ├── src/              # Source code
+│   │   ├── assets/       # Static assets
+│   │   ├── pages/        # Page components
+│   │   └── ...
+│   └── ...
+├── server/               # Backend Express application
+│   ├── src/              # Source code
+│   │   ├── db/           # Database migrations and configuration
+│   │   └── ...
+│   └── ...
+└── docker-compose.yml    # Docker Compose configuration
+```
 
 ---
 
 ## Prerequisites
 
-Before starting, make sure you have the following tools installed on your system:
+Before starting, ensure you have the following tools installed on your system:
 
-1. **Docker** (v20.10 or higher)  
-   [Install Docker](https://docs.docker.com/get-docker/)
+1. **Docker** (v20.10 or higher)
 
-2. **Docker Compose** (v1.29 or higher)  
-   Docker Desktop typically includes Docker Compose.
+   - [Install Docker for macOS](https://docs.docker.com/desktop/install/mac/)
+   - [Install Docker for Windows](https://docs.docker.com/desktop/install/windows/)
+   - [Install Docker for Linux](https://docs.docker.com/desktop/install/linux/)
 
-3. **Node.js** (v20 or higher)  
-   Required for installing dependencies locally. [Download Node.js](https://nodejs.org/)
+2. **Docker Compose** (v1.29 or higher)
+
+   - Docker Desktop for macOS and Windows includes Docker Compose
+   - For Linux: `sudo apt-get install docker-compose-plugin`
+
+3. **Node.js** (v20 or higher)
+
+   - [Download Node.js](https://nodejs.org/)
+   - Recommended: Use [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions
+
+4. **Git** (optional, but recommended)
+
+   - [Install Git](https://git-scm.com/downloads)
+
+5. **Code Editor**
+   - [Visual Studio Code](https://code.visualstudio.com/) (recommended)
+   - Recommended extensions:
+     - ESLint
+     - Prettier
+     - Docker
+     - TypeScript
 
 ---
 
 ## Setup Instructions
 
-1. **Download the repository:**
+### Detailed Setup Steps
 
-   - Go to the repository's page on GitHub.
-   - Click the green "Code" button and select "Download ZIP."
-   - Extract the ZIP file to your desired location.
+1. **Clone or download the repository:**
 
-2. **Navigate to the project directory:**
+   **Option 1: Using Git (recommended)**
 
    ```bash
-   cd <extracted-folder>
+   git clone <repository-url>
+   cd <repository-name>
+   ```
+
+   **Option 2: Manual download**
+
+   - Go to the repository's page on GitHub
+   - Click the green "Code" button and select "Download ZIP"
+   - Extract the ZIP file to your desired location
+   - Navigate to the extracted folder in your terminal
+
+2. **Set up environment variables:**
+
+   ```bash
+   # Copy example environment files
+   cp .env.example .env
+   cp client/.env.example client/.env
+   cp server/.env.example server/.env
    ```
 
 3. **Install dependencies:**
 
-   Run the following commands to install dependencies for the frontend and backend:
-
    ```bash
+   # Install frontend dependencies
    cd client && npm install
+
+   # Install backend dependencies
    cd ../server && npm install
+
+   # Return to project root
+   cd ..
    ```
 
 4. **Start the development environment:**
 
-   Run the following command from the root of the project directory:
-
    ```bash
+   # Build and start all services
    docker compose -f docker-compose.dev.yml up --build
    ```
 
-5. **To stop the environment:**
+   This command will:
 
-   Run the following command:
+   - Build all Docker images
+   - Start all services defined in docker-compose.dev.yml
+   - Connect the services together
+   - Forward the necessary ports to your host machine
+
+5. **Access the application:**
+
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - Backend API: [http://localhost:8000](http://localhost:8000)
+   - pgAdmin: [http://localhost:5050](http://localhost:5050)
+
+6. **To stop the environment:**
 
    ```bash
+   # Stop all services
    docker compose -f docker-compose.dev.yml down
+
+   # To also remove volumes (will delete database data)
+   docker compose -f docker-compose.dev.yml down -v
    ```
+
+### Troubleshooting Common Setup Issues
+
+- **Port conflicts**: If you see errors about ports already being in use, check if you have other services running on ports 3000, 8000, 5432, etc.
+
+- **Docker permission issues**: On Linux, you might need to run Docker commands with `sudo` or add your user to the docker group.
+
+- **Node modules issues**: If you encounter errors related to node modules, try deleting the `node_modules` folders and running `npm install` again.
 
 ---
 
-## Database Migrations
+## Database Management
 
-The backend uses **Knex.js** for managing database migrations. Database migrations help manage creating, updating and deleting table schemas. Below are the commands for creating, applying, and rolling back migrations.
+The application uses PostgreSQL as its database system with Knex.js as the query builder and migration tool. This section explains how to manage your database schema and data.
 
-> [!NOTE]  
-> The Docker Compose file includes a `db-migration` service that automatically runs pending migrations when the application starts.
+### Database Schema
+
+The database schema is managed through migrations, which are version-controlled scripts that create, modify, or delete database tables and other objects. The current schema includes:
+
+- **example_table**: A sample table with various field types
+- **example_foreign_table**: A sample table demonstrating foreign key relationships
+
+You can view the complete schema by:
+
+1. Accessing pgAdmin at [http://localhost:5050](http://localhost:5050)
+2. Logging in with the credentials provided in the [pgAdmin section](#pgadmin)
+3. Connecting to the database using the credentials in the [Database section](#database-postgresql)
+4. Exploring the tables under Servers > PostgreSQL > Databases > symph > Schemas > public > Tables
 
 ### Migration Commands
 
-From the `server` directory, use the following commands:
+From the `server` directory, use the following commands to manage database migrations:
 
-- **Create a new database tables:**
+- **Create a new migration:**
 
   ```bash
-  npm run migration:new
+  npm run migration:new -- migration_name
   ```
+
+  This creates a new migration file in `server/src/db/migrations/` with a timestamp prefix.
 
 - **Run all pending migrations:**
 
@@ -125,11 +243,15 @@ From the `server` directory, use the following commands:
   npm run migration:latest
   ```
 
+  This applies all migrations that haven't been run yet.
+
 - **Rollback the last batch of migrations:**
 
   ```bash
   npm run migration:rollback
   ```
+
+  This undoes the last batch of migrations.
 
 - **Check the status of migrations:**
 
@@ -137,110 +259,256 @@ From the `server` directory, use the following commands:
   npm run migration:status
   ```
 
+  This shows which migrations have been applied and which are pending.
+
 - **Unlock stuck migrations:**
 
   ```bash
   npm run migration:unlock
   ```
 
+  This resolves issues with migrations that are marked as locked but aren't actually running.
+
+> **Note**: The Docker Compose file includes a `db-migration` service that automatically runs pending migrations when the application starts.
+
+### Data Seeding
+
+You can seed your database with initial data using Knex.js seed files. To create and run seed files:
+
+1. Create a seed file:
+
+   ```bash
+   npx knex seed:make seed_name --knexfile=src/db/knexfile.js
+   ```
+
+2. Edit the seed file in `server/src/db/seeds/` to insert your data.
+
+3. Run the seed files:
+
+   ```bash
+   npx knex seed:run --knexfile=src/db/knexfile.js
+   ```
+
 ## Services Overview
 
-### Backend
+### Backend (Express.js)
 
-- **Description:** The backend is built with **Express.js**
+- **Description:** A RESTful API server built with Express.js and TypeScript
 - **Code Directory:** `./server`
+- **Key Features:**
+  - RESTful API endpoints
+  - Database integration via Knex.js
+  - TypeScript for type safety
+  - Hot reloading during development (via nodemon)
 - **Port Mapping:**  
   Externally accessible on `http://localhost:8000`
-- **Database Integration:**  
-  The backend connects to the PostgreSQL database using **Knex.js** for query operations.
+- **API Documentation:**
+  - Swagger UI (when implemented): `http://localhost:8000/api-docs`
 - **Environment Variables:**
-  - `NODE_ENV=development`
-  - `DB_CONNECTION_URI=postgres://symph:symph@localhost/symph?sslmode=disable`
+  - `NODE_ENV=development` - Sets the application environment
+  - `PORT=8000` - The port the server listens on
+  - `DB_CONNECTION_URI=postgres://symph:symph@postgres/symph?sslmode=disable` - Database connection string
+  - Additional variables can be configured in `.env` file
 
 ---
 
-### Frontend
+### Frontend (React.js)
 
-- **Description:** The frontend is a **React.js** application.
+- **Description:** A modern single-page application built with React.js, TypeScript, and Tailwind CSS
 - **Code Directory:** `./client`
+- **Key Features:**
+  - React 18+ with functional components and hooks
+  - TypeScript for type safety
+  - Tailwind CSS for styling
+  - Vite for fast development and optimized builds
+  - Hot module replacement during development
 - **Port Mapping:**  
   Externally accessible on `http://localhost:3000`
+- **Environment Variables:**
+  - `VITE_API_URL=http://localhost:8000` - Backend API URL
+  - Additional variables can be configured in `.env` file
 
 ---
 
-### Database
+### Database (PostgreSQL)
 
-- **Description:** The database is **PostgreSQL**, used to store and manage persistent data.
-- **Image:** `postgres:16-alpine`
+- **Description:** A powerful, open-source relational database system
+- **Image:** `postgres:16-alpine` (lightweight Alpine Linux-based image)
 - **Port Mapping:**  
   Externally accessible on `localhost:5432`
+- **Key Features:**
+  - ACID compliance
+  - JSON support
+  - Robust transaction support
+  - Full-text search capabilities
 - **Query Builder:**  
-  **Knex.js** is used to manage migrations and queries in the backend.
+  **Knex.js** is used to manage migrations and queries in the backend
 - **Credentials:**
   - **Username:** `symph`
   - **Password:** `symph`
   - **Database Name:** `symph`
 - **Volume:**  
-  Data is persisted in the `postgres-data` volume.
+  Data is persisted in the `postgres-data` volume, ensuring data survives container restarts
+- **Connection String:**
+
+  ```
+  postgres://symph:symph@localhost:5432/symph?sslmode=disable
+  ```
 
 ---
 
-### Other helpful Services
+### Development Tools
 
 #### pgAdmin
 
-- **Description:** A web-based management tool for PostgreSQL. This will help you quickly view your DB tables.
+- **Description:** A comprehensive web-based administration tool for PostgreSQL
+- **Image:** `dpage/pgadmin4`
 - **Port Mapping:**  
   Accessible on `http://localhost:5050`
+- **Key Features:**
+  - Database object browser
+  - SQL query tool with syntax highlighting
+  - Server monitoring
+  - Database structure visualization
 - **Default Credentials:**
   - **Email:** `admin@example.com`
   - **Password:** `pass`
+- **Connection Setup:**
+  1. Log in with the credentials above
+  2. Right-click on "Servers" and select "Create" > "Server..."
+  3. Enter any name in the "General" tab
+  4. In the "Connection" tab, enter:
+     - Host: `postgres` (the service name in docker-compose)
+     - Port: `5432`
+     - Username: `symph`
+     - Password: `symph`
+     - Database: `symph`
 
 #### SMTP Server
 
-- **Description:** If you are adding any SMTP functionality and need to test sending/receiving emails, use this service.
+- **Description:** A development SMTP server for testing email functionality
+- **Image:** `mailhog/mailhog`
+- **Key Features:**
+  - Captures all outgoing emails
+  - Web UI for viewing captured emails
+  - API for testing email sending
+  - No actual emails are sent to real recipients
 - **Port Mapping:**
-  - SMTP: `localhost:1025`
-  - Web UI: `http://localhost:8025`
+  - SMTP Server: `localhost:1025` (configure your application to use this for sending mail)
+  - Web UI: `http://localhost:8025` (view captured emails here)
+- **Usage:**
+  - Configure your application to send emails to SMTP server at `localhost:1025`
+  - View all sent emails at `http://localhost:8025`
 
 ---
 
 ## Local Access Links
 
-| Service     | URL                                            |
-| ----------- | ---------------------------------------------- |
-| Frontend    | [http://localhost:3000](http://localhost:3000) |
-| Backend     | [http://localhost:8000](http://localhost:8000) |
-| PostgreSQL  | `localhost:5432` (via psql or client tools)    |
-| pgAdmin     | [http://localhost:5050](http://localhost:5050) |
-| SMTP Web UI | [http://localhost:8025](http://localhost:8025) |
+| Service     | URL                                                              | Description                        |
+| ----------- | ---------------------------------------------------------------- | ---------------------------------- |
+| Frontend    | [http://localhost:3000](http://localhost:3000)                   | React application UI               |
+| Backend API | [http://localhost:8000](http://localhost:8000)                   | Express.js REST API                |
+| API Docs    | [http://localhost:8000/api-docs](http://localhost:8000/api-docs) | API documentation (if implemented) |
+| PostgreSQL  | `localhost:5432` (via psql or client tools)                      | Database connection                |
+| pgAdmin     | [http://localhost:5050](http://localhost:5050)                   | Database management interface      |
+| SMTP Web UI | [http://localhost:8025](http://localhost:8025)                   | Email testing interface            |
 
 ---
 
-## Development Commands
+## Development Workflow
 
 ### Install Dependencies
 
 ```bash
+# Install frontend dependencies
 cd client && npm install
+
+# Install backend dependencies
 cd ../server && npm install
 ```
 
 ### Build and Start Services
 
 ```bash
+# Start all services in development mode
 docker compose -f docker-compose.dev.yml up --build
+
+# Start in detached mode (run in background)
+docker compose -f docker-compose.dev.yml up --build -d
+
+# Start only specific services
+docker compose -f docker-compose.dev.yml up --build postgres pgadmin
 ```
 
 ### Stop and Remove Services
 
 ```bash
+# Stop all services
 docker compose -f docker-compose.dev.yml down
+
+# Stop and remove volumes (will delete database data)
+docker compose -f docker-compose.dev.yml down -v
+
+# Stop only specific services
+docker compose -f docker-compose.dev.yml stop client server
 ```
 
-Default Ports
+### Code Formatting and Linting
 
-1. Frontend (React): 3000
-2. Backend (Express): 8000
-3. PostgreSQL: 5432
-4. SMTP dev server: 1025
+```bash
+# Format frontend code
+cd client && npm run format
+
+# Lint frontend code
+cd client && npm run lint
+
+# Format backend code
+cd server && npm run format
+
+# Lint backend code
+cd server && npm run lint
+```
+
+## Testing
+
+The project includes support for testing both the frontend and backend:
+
+```bash
+# Run frontend tests
+cd client && npm test
+
+# Run backend tests
+cd server && npm test
+```
+
+## Deployment
+
+This project can be deployed to various environments:
+
+1. **Development**: Use the docker-compose setup as described above
+2. **Staging/Production**: Consider using:
+   - Docker Swarm or Kubernetes for container orchestration
+   - AWS, Google Cloud, or Azure for cloud hosting
+   - CI/CD pipelines with GitHub Actions, GitLab CI, or Jenkins
+
+Detailed deployment instructions will depend on your specific hosting environment.
+
+## Contributing Guidelines
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Support and Contact
+
+For questions or support, please contact the Symph careers team.
+
+Default Ports:
+
+- Frontend (React): 3000
+- Backend (Express): 8000
+- PostgreSQL: 5432
+- pgAdmin: 5050
+- SMTP dev server: 1025 (SMTP), 8025 (Web UI)
