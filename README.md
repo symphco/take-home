@@ -447,3 +447,7 @@ Default Ports:
 - PostgreSQL: 5432
 - pgAdmin: 5050
 - SMTP dev server: 1025 (SMTP), 8025 (Web UI)
+
+## Submitting your solution
+
+- Please make sure that the code you submit is working and runnable by using docker c ompose up. This will ensure that the code is working in which ever environment you are using.
