@@ -171,13 +171,13 @@ Before starting, ensure you have the following tools installed on your system:
 
    ```bash
    # Build and start all services
-   docker compose -f docker-compose.dev.yml up --build
+   docker compose -f docker-compose.yml up --build
    ```
 
    This command will:
 
    - Build all Docker images
-   - Start all services defined in docker-compose.dev.yml
+   - Start all services defined in docker-compose.yml
    - Connect the services together
    - Forward the necessary ports to your host machine
 
@@ -191,10 +191,10 @@ Before starting, ensure you have the following tools installed on your system:
 
    ```bash
    # Stop all services
-   docker compose -f docker-compose.dev.yml down
+   docker compose -f docker-compose.yml down
 
    # To also remove volumes (will delete database data)
-   docker compose -f docker-compose.dev.yml down -v
+   docker compose -f docker-compose.yml down -v
    ```
 
 ### Troubleshooting Common Setup Issues
@@ -431,26 +431,26 @@ cd ../server && npm install
 
 ```bash
 # Start all services in development mode
-docker compose -f docker-compose.dev.yml up --build
+docker compose -f docker-compose.yml up --build
 
 # Start in detached mode (run in background)
-docker compose -f docker-compose.dev.yml up --build -d
+docker compose -f docker-compose.yml up --build -d
 
 # Start only specific services
-docker compose -f docker-compose.dev.yml up --build postgres pgadmin
+docker compose -f docker-compose.yml up --build postgres pgadmin
 ```
 
 ### Stop and Remove Services
 
 ```bash
 # Stop all services
-docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.yml down
 
 # Stop and remove volumes (will delete database data)
-docker compose -f docker-compose.dev.yml down -v
+docker compose -f docker-compose.yml down -v
 
 # Stop only specific services
-docker compose -f docker-compose.dev.yml stop client server
+docker compose -f docker-compose.yml stop client server
 ```
 
 ### Code Formatting and Linting
