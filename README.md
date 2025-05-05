@@ -28,9 +28,6 @@
     - [Install Dependencies](#install-dependencies)
     - [Build and Start Services](#build-and-start-services)
     - [Stop and Remove Services](#stop-and-remove-services)
-    - [Code Formatting and Linting](#code-formatting-and-linting)
-  - [Testing](#testing)
-  - [Deployment](#deployment)
   - [Contributing Guidelines](#contributing-guidelines)
   - [Support and Contact](#support-and-contact)
   <!--toc:end-->
@@ -145,16 +142,7 @@ Before starting, ensure you have the following tools installed on your system:
    - Extract the ZIP file to your desired location
    - Navigate to the extracted folder in your terminal
 
-2. **Set up environment variables:**
-
-   ```bash
-   # Copy example environment files
-   cp .env.example .env
-   cp client/.env.example client/.env
-   cp server/.env.example server/.env
-   ```
-
-3. **Install dependencies:**
+2. **Install dependencies:**
 
    ```bash
    # Install frontend dependencies
@@ -167,11 +155,11 @@ Before starting, ensure you have the following tools installed on your system:
    cd ..
    ```
 
-4. **Start the development environment:**
+3. **Start the development environment:**
 
    ```bash
    # Build and start all services
-   docker compose -f docker-compose.yml up --build
+   docker compose up --build
    ```
 
    This command will:
@@ -181,20 +169,18 @@ Before starting, ensure you have the following tools installed on your system:
    - Connect the services together
    - Forward the necessary ports to your host machine
 
-5. **Access the application:**
+4. **Access the application:**
 
    - Frontend: [http://localhost:3000](http://localhost:3000)
    - Backend API: [http://localhost:8000](http://localhost:8000)
    - pgAdmin: [http://localhost:5050](http://localhost:5050)
 
-6. **To stop the environment:**
+5. **To stop the environment:**
 
    ```bash
    # Stop all services
-   docker compose -f docker-compose.yml down
+   docker compose down
 
-   # To also remove volumes (will delete database data)
-   docker compose -f docker-compose.yml down -v
    ```
 
 ### Troubleshooting Common Setup Issues
@@ -431,67 +417,16 @@ cd ../server && npm install
 
 ```bash
 # Start all services in development mode
-docker compose -f docker-compose.yml up --build
+docker compose up --build
 
-# Start in detached mode (run in background)
-docker compose -f docker-compose.yml up --build -d
-
-# Start only specific services
-docker compose -f docker-compose.yml up --build postgres pgadmin
 ```
 
 ### Stop and Remove Services
 
 ```bash
 # Stop all services
-docker compose -f docker-compose.yml down
-
-# Stop and remove volumes (will delete database data)
-docker compose -f docker-compose.yml down -v
-
-# Stop only specific services
-docker compose -f docker-compose.yml stop client server
+docker compose down
 ```
-
-### Code Formatting and Linting
-
-```bash
-# Format frontend code
-cd client && npm run format
-
-# Lint frontend code
-cd client && npm run lint
-
-# Format backend code
-cd server && npm run format
-
-# Lint backend code
-cd server && npm run lint
-```
-
-## Testing
-
-The project includes support for testing both the frontend and backend:
-
-```bash
-# Run frontend tests
-cd client && npm test
-
-# Run backend tests
-cd server && npm test
-```
-
-## Deployment
-
-This project can be deployed to various environments:
-
-1. **Development**: Use the docker-compose setup as described above
-2. **Staging/Production**: Consider using:
-   - Docker Swarm or Kubernetes for container orchestration
-   - AWS, Google Cloud, or Azure for cloud hosting
-   - CI/CD pipelines with GitHub Actions, GitLab CI, or Jenkins
-
-Detailed deployment instructions will depend on your specific hosting environment.
 
 ## Contributing Guidelines
 
